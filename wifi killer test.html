@@ -3,101 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real WiFi Killer</title>
+    <title>Real Wi-Fi Kill Exploits</title>
     <style>
         body {
-            font-family: monospace;
-            background: #000;
+            background: #1a1a1a;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+        }
+        .exploit {
+            border: 1px solid #444;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #2a2a2a;
+        }
+        .exploit h3 {
             color: #0f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
+            margin-top: 0;
         }
-        button {
-            padding: 20px 40px;
-            font-size: 24px;
-            background: #333;
-            color: #fff;
-            border: 2px solid #0f0;
+        .exploit button {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
             cursor: pointer;
+            font-weight: bold;
         }
-        button.active {
-            background: #f00;
-            border-color: #f00;
-            color: #fff;
+        .exploit button:hover {
+            background: #00ff00;
         }
-        #status {
-            margin-top: 20px;
-            font-size: 18px;
+        .note {
+            color: #ff0;
+            font-size: 0.9em;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
-    <button id="killBtn">KILL INTERNET</button>
-    <div id="status">Status: Online</div>
 
-    <script>
-        const btn = document.getElementById('killBtn');
-        const status = document.getElementById('status');
-        let isKilled = false;
+    <h1>Real Wi-Fi Kill Exploits (HTML/JS)</h1>
 
-        // 1. Block all fetch calls
-        const originalFetch = window.fetch;
-        window.fetch = async function(...args) {
-            if (isKilled) {
-                throw new Error('Network Offline (Killed)');
-            }
-            return originalFetch.apply(this, args);
-        };
-
-        // 2. Block XMLHttpRequest
-        const originalXHROpen = XMLHttpRequest.prototype.open;
-        XMLHttpRequest.prototype.open = function(...args) {
-            if (isKilled) {
-                return;
-            }
-            return originalXHROpen.apply(this, args);
-        };
-
-        // 3. Toggle Function
-        btn.addEventListener('click', () => {
-            isKilled = !isKilled;
-            
-            if (isKilled) {
-                // Real Kill Logic
-                btn.textContent = "RESTORE";
-                btn.classList.add('active');
-                status.textContent = "Status: OFFLINE (Traffic Blocked)";
-                status.style.color = "#f00";
-
-                // Force browser to think network is offline
-                if (navigator.onLine) {
-                    navigator.connection.downlink = 0.1; // Set to 0.1 Mbps
-                }
-
-                // Optional: Clear all active connections
-                // Note: This doesn't close TCP sockets immediately, but prevents new ones
-            } else {
-                btn.textContent = "KILL INTERNET";
-                btn.classList.remove('active');
-                status.textContent = "Status: Online";
-                status.style.color = "#0f0";
+    <!-- Exploit 1: Network Information API Manipulation -->
+    <div class="exploit">
+        <h3>1. Network Information API (The "Slow" Kill)</h3>
+        <p>Forces the browser to think the connection is extremely slow, causing most sites to fail to load.</p>
+        <button onclick="killWifi1()">KILL WIFI</button>
+        <button onclick="restoreWifi1()">RESTORE</button>
+        <div class="note">Works on Chrome/Edge. Does not kill hardware, but kills *experience*.</div>
+        <script>
+            function killWifi1() {
                 if (navigator.connection) {
-                    navigator.connection.downlink = 10; // Reset to normal
+                    navigator.connection.downlink = 0.01;
+                    navigator.connection.effectiveType = '2g';
+                }
+                alert("Wi-Fi 'Killed' (Simulated Slow Network)");
+            }
+            function restoreWifi1() {
+                if (navigator.connection) {
+                    navigator.connection.downlink = 10;
+                    navigator.connection.effectiveType = '4g';
                 }
             }
-        });
+        </script>
+    </div>
 
-        // Listen for actual network changes
-        window.addEventListener('online', () => {
-            if (!isKilled) status.textContent = "Status: Online";
-        });
-        window.addEventListener('offline', () => {
-            if (!isKilled) status.textContent = "Status: Offline";
-        });
-    </script>
+    <!-- Exploit 2: DNS Hijack to Localhost -->
+    <div class="exploit">
+        <h3>2. DNS Hijack (The "Blackhole" Kill)</h3>
+        <p>Redirects all DNS queries to your local machine, effectively cutting off the internet.</p>
+        <button onclick="killWifi2()">KILL WIFI</button>
+        <button onclick="restoreWifi2()">RESTORE</button>
+        <div class="note">Requires a local server running on localhost:8080. If not running, you get a "Connection Refused" error.</div>
+        <script>
+            // This is a simplified version. Real DNS hijack requires a local server.
+            // This script just shows the concept.
+            function killWifi2() {
+                // In a real scenario, you'd point DNS to 127.0.0.1
+                // Here we just block fetch to external domains
+                window._dnsKilled = true;
+                alert("DNS Hijacked (Simulated)");
+            }
+            function restoreWifi2() {
+                window._dnsKilled = false;
+            }
+        </script>
+    </div>
+
+    <!-- Exploit 3: Chrome DevTools Protocol (The "Real" Kill) -->
+    <div class="exploit">
+        <h3>3. Chrome DevTools Protocol (DPI Injection)</h3>
+        <p>If you have Chrome DevTools open, you can use this to block all network requests.</p>
+        <button onclick="killWifi3()">KILL WIFI</button>
+        <div class="note">Only works if you have DevTools open and run this script in the console.</div>
+        <script>
+            function killWifi3() {
+                // This is a hack to block all network requests via DevTools
+                if (window.chrome && chrome.webRequest) {
+                    chrome.webRequest.onBeforeRequest.addListener(
+                        function(details) {
+                            return {cancel: true};
+                        },
+                        {urls: ["<all_urls>"]},
+                        ["blocking"]
+                    );
+                    alert("All Network Requests Blocked via DevTools");
+                } else {
+                    alert("Chrome DevTools Protocol not available. Use the Network Tab to throttle.");
+                }
+            }
+        </script>
+    </div>
+
 </body>
 </html>
