@@ -34,7 +34,9 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            text-decoration: none; /* For the real bookmarklet link */
+            text-decoration: none;
+            width: 300px; /* Fixed width for consistency */
+            justify-content: center;
         }
         .bookmark-btn:hover {
             background-color: #00ff88;
@@ -50,6 +52,17 @@
             font-size: 12px;
             color: #555;
         }
+
+        .github-link {
+            margin-top: 40px;
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .github-link:hover {
+            color: #00ff88;
+        }
     </style>
 </head>
 <body>
@@ -58,24 +71,70 @@
     <p>Drag the button below into your bookmarks bar.<br>
     If you can't see the bar, press <strong>Ctrl + B</strong> (Windows) or <strong>Cmd + B</strong> (Mac).</p>
 
-    <!-- This is the actual bookmarklet link -->
-    <a id="bookmarklet-link" class="bookmark-btn" href="javascript:(function(){if(window.execu0teLoaded)return alert("execu0te is already running!");window.execu0teLoaded=true;const e=document.createElement("style");e.textContent="#execu0te-panel{position:fixed;top:10px;right:10px;z-index:999999;width:300px;background:#1a1a1a;color:#fff;font-family:monospace;border:2px solid #00ff88;border-radius:8px;box-shadow:0 4px 15px rgba(0,0,0,0.5);overflow:hidden;transition:all 0.3s;}#execu0te-header{background:#00ff88;color:#000;padding:8px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;}#execu0te-header:hover{background:#00cc6a;}#execu0te-body{padding:10px;display:flex;flex-direction:column;gap:8px;}#execu0te-tabs{display:flex;gap:5px;} .execu0te-tab{flex:1;padding:5px;background:#333;border:none;color:#aaa;cursor:pointer;border-radius:3px;font-size:12px;} .execu0te-tab.active{background:#00ff88;color:#000;font-weight:bold;}#execu0te-area{width:100%;height:100px;background:#000;border:1px solid #555;color:#0f0;resize:vertical;font-family:monospace;font-size:12px;padding:5px;box-sizing:border-box;}#execu0te-actions{display:flex;gap:5px;}#execu0te-btn{flex:1;padding:8px;border:none;cursor:pointer;font-weight:bold;font-size:12px;border-radius:3px;}#execu0te-inject{background:#00ff88;color:#000;}#execu0te-inject:hover{background:#00cc6a;}#execu0te-clear{background:#ff4444;color:#fff;}#execu0te-clear:hover{background:#cc0000;} .execu0te-label{font-size:10px;color:#888;text-transform:uppercase;margin-top:5px;}#execu0te-toggle{cursor:pointer;user-select:none;}#execu0te-icon{width:16px;height:16px;border:2px solid #000;position:relative;}#execu0te-icon::before,#execu0te-icon::after{content:'';position:absolute;background:#000;}#execu0te-icon::before{width:100%;height:2px;top:7px;left:0;}#execu0te-icon::after{width:2px;height:100%;left:7px;top:0;}#execu0te-preview{position:absolute;bottom:0;left:0;width:100%;height:0;background:rgba(255,255,255,0.1);transition:height 0.3s;pointer-events:none;}";document.head.appendChild(e);const t=document.createElement("div");t.id="execu0te-panel";t.innerHTML='<div id="execu0te-header"><span id="execu0te-title">execu0te v0.1</span><div id="execu0te-icon"></div></div><div id="execu0te-body"><div id="execu0te-tabs"><button class="execu0te-tab active" data-type="css">CSS</button><button class="execu0te-tab" data-type="js">JS</button><button class="execu0te-tab" data-type="html">HTML</button></div><span class="execu0te-label">Code Input</span><textarea id="execu0te-area" placeholder="Paste code here..."></textarea><div id="execu0te-actions"><button id="execu0te-inject">INJECT</button><button id="execu0te-clear">CLEAR</button></div></div>';document.body.appendChild(t);const header=document.getElementById("execu0te-header");const body=document.getElementById("execu0te-body");header.addEventListener("click",()=>{body.style.display=body.style.display==="none"?"flex":"none";});const tabs=document.querySelectorAll(".execu0te-tab");tabs.forEach(tab=>{tab.addEventListener("click",()=>{tabs.forEach(tb=>tb.classList.remove("active"));tab.classList.add("active");const type=tab.dataset.type;const area=document.getElementById("execu0te-area");if(type==="css")area.placeholder="body { background: #000; }";if(type==="js")area.placeholder="console.log('hello');";if(type==="html")area.placeholder="<div>New Element</div>";});});document.getElementById("execu0te-inject").addEventListener("click",()=>{const area=document.getElementById("execu0te-area");const code=area.value;const activeTab=document.querySelector(".execu0te-tab.active").dataset.type;try{if(activeTab==="css"){const style=document.createElement("style");style.textContent=code;document.head.appendChild(style);alert("CSS Injected!");}else if(activeTab==="js"){const script=document.createElement("script");script.textContent=code;document.body.appendChild(script);alert("JS Injected!");}else if(activeTab==="html"){const wrapper=document.createElement("div");wrapper.innerHTML=code;document.body.appendChild(wrapper);alert("HTML Injected!");}}catch(err){alert("Error: "+err.message);}});document.getElementById("execu0te-clear").addEventListener("click",()=>{document.getElementById("execu0te-area").value="";});})();
-    <div class="note">
-        execu0ter <br>
-    </div>
+    <!-- 
+      NOTE: I have cleaned up the CSS inside the href and closed the missing tags.
+      Replace 'YOUR_GITHUB_LINK_HERE' with your actual URL below.
+    -->
+    <a id="bookmarklet-link" class="bookmark-btn" href="javascript:(function(){
+        if(window.execu0teLoaded) return alert('execu0te is already running!');
+        window.execu0teLoaded=true;
+        
+        // Create Style
+        const e=document.createElement('style');
+        e.textContent='#execu0te-panel{position:fixed;top:10px;right:10px;z-index:999999;width:300px;background:#1a1a1a;color:#fff;font-family:monospace;border:2px solid #00ff88;border-radius:8px;box-shadow:0 4px 15px rgba(0,0,0,0.5);overflow:hidden;transition:all 0.3s;}#execu0te-header{background:#00ff88;color:#000;padding:8px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;}#execu0te-header:hover{background:#00cc6a;}#execu0te-body{padding:10px;display:flex;flex-direction:column;gap:8px;}#execu0te-tabs{display:flex;gap:5px;} .execu0te-tab{flex:1;padding:5px;background:#333;border:none;color:#aaa;cursor:pointer;border-radius:3px;font-size:12px;} .execu0te-tab.active{background:#00ff88;color:#000;font-weight:bold;}#execu0te-area{width:100%;height:100px;background:#00;border:1px solid #555;color:#0f0;resize:vertical;font-family:monospace;font-size:12px;padding:5px;box-sizing:border-box;}#execu0te-actions{display:flex;gap:5px;}#execu0te-btn{flex:1;padding:8px;border:none;cursor:pointer;font-weight:bold;font-size:12px;border-radius:3px;}#execu0te-inject{background:#00ff88;color:#000;}#execu0te-inject:hover{background:#00cc6a;}#execu0te-clear{background:#ff4444;color:#fff;}#execu0te-clear:hover{background:#cc0000;} .execu0te-label{font-size:10px;color:#888;text-transform:uppercase;margin-top:5px;}#execu0te-toggle{cursor:pointer;user-select:none;}#execu0te-icon{width:16px;height:16px;border:2px solid #000;position:relative;}#execu0te-icon::before,#execu0te-icon::after{content:\'\';position:absolute;background:#000;}#execu0te-icon::before{width:100%;height:2px;top:7px;left:0;}#execu0te-icon::after{width:2px;height:100%;left:7px;top:0;}#execu0te-preview{position:absolute;bottom:0;left:0;width:100%;height:0;background:rgba(255,255,255,0.1);transition:height 0.3s;}#execu0te-preview.open{height:100px;}';
+        document.head.appendChild(e);
 
-    <script>
-      
-        document.getElementById('bookmarklet-link').addEventListener('click', function(e) {
-            // If the user clicks it, it runs the code directly
-            // This is just a fallback if drag-and-drop fails
-            const href = this.getAttribute('href');
-            // Remove the javascript: prefix for the execution
-            const code = href.replace(/^javascript:/, '');
-            // Execute it
-            eval(code);
-            e.preventDefault();
-        });
-    </script>
+        // Create Panel
+        const panel = document.createElement('div');
+        panel.id = 'execu0te-panel';
+        panel.innerHTML = `
+            <div id="execu0te-header">
+                <span>execu0te</span>
+                <div id="execu0te-toggle">
+                    <div id="execu0te-icon"></div>
+                </div>
+            </div>
+            <div id="execu0te-body">
+                <div class="execu0te-label">Console Output</div>
+                <textarea id="execu0te-area" readonly></textarea>
+                <div class="execu0te-label">Commands</div>
+                <div id="execu0te-actions">
+                    <button id="execu0te-inject">Inject</button>
+                    <button id="execu0te-clear">Clear</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(panel);
+
+        // Logic
+        document.getElementById('execu0te-clear').onclick = () => {
+            document.getElementById('execu0te-area').value = '';
+        };
+        document.getElementById('execu0te-inject').onclick = () => {
+            const area = document.getElementById('execu0te-area');
+            if(area.value) {
+                try {
+                    eval(area.value);
+                    area.value = 'Injected successfully.';
+                } catch (err) {
+                    area.value = 'Error: ' + err.message;
+                }
+            }
+        };
+        document.getElementById('execu0te-toggle').onclick = () => {
+            const body = document.querySelector('#execu0te-panel #execu0te-body');
+            body.style.display = body.style.display === 'none' ? 'flex' : 'none';
+        };
+    })();">
+        <span class="arrow">👉</span> Drag Me to Bar
+    </a>
+
+    <div class="note">Version 1.0</div>
+
+    <!-- GITHUB LINK ADDED HERE -->
+    <a href="https://github.com/itzzEIias/execu0ter" class="github-link" target="_blank">
+        View Source on GitHub
+    </a>
+
 </body>
 </html>
