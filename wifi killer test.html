@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real WiFi Killer</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #000;
+            color: #0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        button {
+            padding: 20px 40px;
+            font-size: 24px;
+            background: #333;
+            color: #fff;
+            border: 2px solid #0f0;
+            cursor: pointer;
+        }
+        button.active {
+            background: #f00;
+            border-color: #f00;
+            color: #fff;
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <button id="killBtn">KILL INTERNET</button>
+    <div id="status">Status: Online</div>
+
+    <script>
+        const btn = document.getElementById('killBtn');
+        const status = document.getElementById('status');
+        let isKilled = false;
+
+        // 1. Block all fetch calls
+        const originalFetch = window.fetch;
+        window.fetch = async function(...args) {
+            if (isKilled) {
+                throw new Error('Network Offline (Killed)');
+            }
+            return originalFetch.apply(this, args);
+        };
+
+        // 2. Block XMLHttpRequest
+        const originalXHROpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(...args) {
+            if (isKilled) {
+                return;
+            }
+            return originalXHROpen.apply(this, args);
+        };
+
+        // 3. Toggle Function
+        btn.addEventListener('click', () => {
+            isKilled = !isKilled;
+            
+            if (isKilled) {
+                // Real Kill Logic
+                btn.textContent = "RESTORE";
+                btn.classList.add('active');
+                status.textContent = "Status: OFFLINE (Traffic Blocked)";
+                status.style.color = "#f00";
+
+                // Force browser to think network is offline
+                if (navigator.onLine) {
+                    navigator.connection.downlink = 0.1; // Set to 0.1 Mbps
+                }
+
+                // Optional: Clear all active connections
+                // Note: This doesn't close TCP sockets immediately, but prevents new ones
+            } else {
+                btn.textContent = "KILL INTERNET";
+                btn.classList.remove('active');
+                status.textContent = "Status: Online";
+                status.style.color = "#0f0";
+                if (navigator.connection) {
+                    navigator.connection.downlink = 10; // Reset to normal
+                }
+            }
+        });
+
+        // Listen for actual network changes
+        window.addEventListener('online', () => {
+            if (!isKilled) status.textContent = "Status: Online";
+        });
+        window.addEventListener('offline', () => {
+            if (!isKilled) status.textContent = "Status: Offline";
+        });
+    </script>
+</body>
+</html>
