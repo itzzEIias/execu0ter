@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapid Fire Bandwidth Saturation</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+            margin: 0;
+        }
+        #console {
+            height: 200px;
+            border: 1px solid #333;
+            padding: 10px;
+            overflow-y: auto;
+            background: #111;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .log-error { color: #f00; }
+        .log-info { color: #0f0; }
+        .log-warn { color: #fa0; }
+        button {
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 15px 30px;
+            cursor: pointer;
+            font-family: inherit;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        button:hover { background: #555; }
+        button:disabled { background: #222; color: #555; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+    <button id="startBtn" onclick="startRapidFire()">OPEN 10 TABS EVERY 100MS (BURST MODE)</button>
+    <button id="stopBtn" onclick="stopSaturation()" disabled>CLOSE ALL</button>
+    <div id="console">Waiting to burst...<br></div>
+
+<script>
+    const consoleDiv = document.getElementById('console');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    
+    const tabs = [];
+    let burstInterval = null;
+
+    function log(msg, type = 'info') {
+        const line = document.createElement('div');
+        line.className = `log-${type}`;
+        const time = new Date().toLocaleTimeString();
+        line.textContent = `[${time}] ${msg}`;
+        consoleDiv.appendChild(line);
+        consoleDiv.scrollTop = consoleDiv.scrollHeight;
+    }
+
+    function startRapidFire() {
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        log('--- RAPID FIRE BURST STARTED (10 tabs / 100ms) ---', 'error');
+        
+        let count = 0;
+        const maxTabs = 100; // Limit to prevent browser crash
+        
+        // The rapid fire loop
+        burstInterval = setInterval(() => {
+            if (count >= maxTabs) {
+                clearInterval(burstInterval);
+                log(`--- MAX TABS REACHED (${maxTabs}) ---`, 'warn');
+                return;
+            }
+
+            // Open 10 tabs in this 100ms window
+            for (let i = 0; i < 10; i++) {
+                if (count >= maxTabs) break;
+                
+                const videoId = [
+                    'dQw4w9WgXcQ', 'jNQXAC9IVRw', '9bZkp7q19f0', 'kJQP7kiw5Fk', 
+                    'JGwWNGJdvx8', 'RgKAFK5djSk', 'OPf0YbXqDm0', '60ItHLz5WEA', 
+                    'fJ9rUzIMcZQ', 'ZbZSe6N_BXs'
+                ][count % 10]; // Cycle through IDs to avoid exact duplicates
+
+                const url = `https://www.youtube.com/watch?v=${videoId}`;
+                const tab = window.open(url, '_blank');
+                if (tab) {
+                    tabs.push(tab);
+                    log(`[BURST] Tab ${count + 1} opened`, 'info');
+                }
+                count++;
+            }
+        }, 100); // Every 100 milliseconds
+    }
+
+    function stopSaturation() {
+        log('--- CLOSING ALL RESOURCES ---', 'warn');
+        
+        // Stop the burst
+        if (burstInterval) {
+            clearInterval(burstInterval);
+            burstInterval = null;
+        }
+
+        // Close all tabs
+        tabs.forEach(tab => {
+            if (tab && !tab.closed) {
+                tab.close();
+            }
+        });
+
+        // Re-enable buttons
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        log('--- BURST STOPPED ---', 'info');
+        
+        // Clear console after a delay
+        setTimeout(() => {
+            consoleDiv.innerHTML = '';
+            log('Console cleared. Ready to start again.', 'info');
+        }, 1000);
+    }
+</script>
+</body>
+</html>
