@@ -1,1 +1,134 @@
-javascript:(function(){!function(){if(window.execu0teLoaded)return alert("execu0te is already running!");window.execu0teLoaded=!0;const e=document.createElement("style");e.textContent="\n    #execu0te-panel{position:fixed;top:10px;right:10px;z-index:999999;width:300px;background:#1a1a1a;color:#fff;font-family:monospace;border:2px%20solid%20#00ff88;border-radius:8px;box-shadow:0%204px%2015px%20rgba(0,0,0,0.5);overflow:hidden;transition:all%200.3s;}\n%20%20%20%20#execu0te-header{background:#00ff88;color:#000;padding:8px%2012px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;}\n%20%20%20%20#execu0te-header:hover{background:#00cc6a;}\n%20%20%20%20#execu0te-body{padding:10px;display:flex;flex-direction:column;gap:8px;}\n%20%20%20%20#execu0te-tabs{display:flex;gap:5px;}\n%20%20%20%20.execu0te-tab{flex:1;padding:5px;background:#333;border:none;color:#aaa;cursor:pointer;border-radius:3px;font-size:12px;}\n%20%20%20%20.execu0te-tab.active{background:#00ff88;color:#000;font-weight:bold;}\n%20%20%20%20#execu0te-area{width:100%;height:100px;background:#000;border:1px%20solid%20#555;color:#0f0;resize:vertical;font-family:monospace;font-size:12px;padding:5px;box-sizing:border-box;}\n%20%20%20%20#execu0te-actions{display:flex;gap:5px;}\n%20%20%20%20#execu0te-btn{flex:1;padding:8px;border:none;cursor:pointer;font-weight:bold;font-size:12px;border-radius:3px;}\n%20%20%20%20#execu0te-inject{background:#00ff88;color:#000;}\n%20%20%20%20#execu0te-inject:hover{background:#00cc6a;}\n%20%20%20%20#execu0te-clear{background:#ff4444;color:#fff;}\n%20%20%20%20#execu0te-clear:hover{background:#cc0000;}\n%20%20%20%20.execu0te-label{font-size:10px;color:#888;text-transform:uppercase;margin-top:5px;}\n%20%20%20%20#execu0te-toggle{cursor:pointer;user-select:none;}\n%20%20%20%20#execu0te-icon{width:16px;height:16px;border:2px%20solid%20#000;position:relative;}\n%20%20%20%20#execu0te-icon::before,#execu0te-icon::after{content:'';position:absolute;background:#000;}\n%20%20%20%20#execu0te-icon::before{width:100%;height:2px;top:7px;left:0;}\n%20%20%20%20#execu0te-icon::after{width:2px;height:100%;left:7px;top:0;}\n%20%20%20%20#execu0te-preview{position:absolute;bottom:0;left:0;width:100%;height:0;background:rgba(255,255,255,0.1);transition:height%200.3s;pointer-events:none;}\n%20%20%20%20%22,document.head.appendChild(e);const%20t=document.createElement(%22div%22);t.id=%22execu0te-panel%22,t.innerHTML='\n%20%20%20%20%20%20%20%20%3Cdiv%20id=%22execu0te-header%22%3E\n%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%20id=%22execu0te-title%22%3Eexecu0te%20v0.1%3C/span%3E\n%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20id=%22execu0te-icon%22%3E%3C/div%3E\n%20%20%20%20%20%20%20%20%3C/div%3E\n%20%20%20%20%20%20%20%20%3Cdiv%20id=%22execu0te-body%22%3E\n%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20id=%22execu0te-tabs%22%3E\n%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cbutton%20class=%22execu0te-tab%20active%22%20data-type=%22css%22%3ECSS%3C/button%3E\n%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cbutton%20class=%22execu0te-tab%22%20data-type=%22js%22%3EJS%3C/button%3E\n%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cbutton%20class=%22execu0te-tab%22%20data-type=%22html%22%3EHTML%3C/button%3E\n%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E\n%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%20class=%22execu0te-label%22%3ECode%20Input%3C/span%3E\n%20%20%20%20%20%20%20%20%20%20%20%20%3Ctextarea%20id=%22execu0te-area%22%20placeholder=%22Paste%20code%20here...%22%3E%3C/textarea%3E\n%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20id=%22execu0te-actions%22%3E\n%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cbutton%20id=%22execu0te-inject%22%3EINJECT%3C/button%3E\n%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cbutton%20id=%22execu0te-clear%22%3ECLEAR%3C/button%3E\n%20%20%20%20%20%20%20%20%20%20%20%20%3C/div%3E\n%20%20%20%20%20%20%20%20%3C/div%3E\n%20%20%20%20%20%20%20%20%3Cdiv%20id=%22execu0te-preview%22%3E%3C/div%3E\n%20%20%20%20',document.body.appendChild(t);const%20n={css:%22%22,js:%22%22,html:%22%22};let%20o=%22css%22;document.getElementById(%22execu0te-panel%22);const%20c=document.getElementById(%22execu0te-body%22),i=document.getElementById(%22execu0te-area%22),d=document.querySelectorAll(%22.execu0te-tab%22),a=document.getElementById(%22execu0te-inject%22),r=document.getElementById(%22execu0te-clear%22),s=document.getElementById(%22execu0te-header%22);document.getElementById(%22execu0te-preview%22);d.forEach((e=%3E{e.addEventListener(%22click%22,(()=%3E{d.forEach((e=%3Ee.classList.remove(%22active%22))),e.classList.add(%22active%22),o=e.dataset.type,i.value=n[o]}))})),i.addEventListener(%22input%22,(()=%3E{n[o]=i.value})),a.addEventListener(%22click%22,(()=%3E{const%20e=n.css.trim(),t=n.js.trim(),o=n.html.trim();if(e){const%20t=document.createElement(%22style%22);t.id=%22execu0te-injected-css%22,t.textContent=e,document.head.appendChild(t)}if(o){const%20e=document.createElement(%22div%22);e.id=%22execu0te-injected-html%22,e.innerHTML=o,document.body.appendChild(e)}if(t)try{new%20Function(t)()}catch(e){alert(%22JS%20Error:%20%22+e.message)}a.textContent=%22DONE%22,setTimeout((()=%3Ea.textContent=%22INJECT%22),1e3)})),r.addEventListener(%22click%22,(()=%3E{confirm(%22Clear%20all%20code%20and%20injected%20elements?%22)&&(n.css=%22%22,n.js=%22%22,n.html=%22%22,i.value=%22%22,document.getElementById(%22execu0te-injected-css%22)?.remove(),document.getElementById(%22execu0te-injected-html%22)?.remove())}));let%20l,u,x,p,f=!1,m=!1;s.addEventListener(%22mousedown%22,(e=%3E{f=!0,l=e.clientX,u=e.clientY,x=t.offsetLeft,p=t.offsetTop,t.style.transition=%22none%22})),document.addEventListener(%22mousemove%22,(e=%3E{if(f){const%20n=e.clientX-l,o=e.clientY-u;t.style.left=x+n+%22px%22,t.style.top=p+o+%22px%22,t.style.right=%22auto%22}if(m){const%20n=e.clientX-l,o=e.clientY-u;t.style.width=Math.max(200,startWidth+n)+%22px%22,t.style.height=Math.max(100,startHeight+o)+%22px%22}})),document.addEventListener(%22mouseup%22,(()=%3E{f=!1,m=!1})),t.addEventListener(%22mousedown%22,(e=%3E{e.target!==t&&%22execu0te-panel%22!==e.target.id||(m=!0,l=e.clientX,u=e.clientY,startWidth=t.offsetWidth,startHeight=t.offsetHeight)})),s.addEventListener(%22click%22,(e=%3E{e.target!==a&&e.target!==r&&(c.style.display=%22none%22===c.style.display?%22flex%22:%22none%22)})),t.style.right=%2210px%22,t.style.top=%2210px%22,t.style.left=%22auto%22}();}());
+javascript:(function(){
+  if(window.execu0teLoaded) return alert("execu0te is already running!");
+  window.execu0teLoaded = true;
+
+  const e = document.createElement("style");
+  e.textContent = `
+    #execu0te-panel {
+      position: fixed; top: 10px; right: 10px; z-index: 999999;
+      width: 300px; background: #1a1a1a; color: #fff;
+      font-family: monospace; border: 2px solid #00ff88;
+      border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      overflow: hidden; transition: all 0.3s;
+    }
+    #execu0te-header {
+      background: #00ff88; color: #000; padding: 8px 12px;
+      cursor: pointer; display: flex; justify-content: space-between;
+      align-items: center; font-weight: bold;
+    }
+    #execu0te-header:hover { background: #00cc6a; }
+    #execu0te-body { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+    #execu0te-tabs { display: flex; gap: 5px; }
+    .execu0te-tab {
+      flex: 1; padding: 5px; background: #333; border: none;
+      color: #aaa; cursor: pointer; border-radius: 3px; font-size: 12px;
+    }
+    .execu0te-tab.active { background: #00ff88; color: #000; font-weight: bold; }
+    #execu0te-area {
+      width: 100%; height: 100px; background: #000; border: 1px solid #555;
+      color: #0f0; resize: vertical; font-family: monospace; font-size: 12px;
+      padding: 5px; box-sizing: border-box;
+    }
+    #execu0te-actions { display: flex; gap: 5px; }
+    #execu0te-btn { flex: 1; padding: 8px; border: none; cursor: pointer; font-weight: bold; font-size: 12px; border-radius: 3px; }
+    #execu0te-inject { background: #00ff88; color: #000; }
+    #execu0te-inject:hover { background: #00cc6a; }
+    #execu0te-clear { background: #ff4444; color: #fff; }
+    #execu0te-clear:hover { background: #cc0000; }
+    .execu0te-label { font-size: 10px; color: #888; text-transform: uppercase; margin-top: 5px; }
+    #execu0te-toggle { cursor: pointer; user-select: none; }
+    #execu0te-icon {
+      width: 16px; height: 16px; border: 2px solid #000; position: relative;
+    }
+    #execu0te-icon::before, #execu0te-icon::after {
+      content: ''; position: absolute; background: #000;
+    }
+    #execu0te-icon::before { width: 100%; height: 2px; top: 7px; left: 0; }
+    #execu0te-icon::after { width: 2px; height: 100%; left: 7px; top: 0; }
+    #execu0te-preview {
+      position: absolute; bottom: 0; left: 0; width: 100%; height: 0;
+      background: rgba(255,255,255,0.1); transition: height 0.3s; pointer-events: none;
+    }
+  `;
+  document.head.appendChild(e);
+
+  const t = document.createElement("div");
+  t.id = "execu0te-panel";
+  t.innerHTML = `
+    <div id="execu0te-header">
+      <span id="execu0te-title">execu0te v0.1</span>
+      <div id="execu0te-icon"></div>
+    </div>
+    <div id="execu0te-body">
+      <div id="execu0te-tabs">
+        <button class="execu0te-tab active" data-type="css">CSS</button>
+        <button class="execu0te-tab" data-type="js">JS</button>
+        <button class="execu0te-tab" data-type="html">HTML</button>
+      </div>
+      <span class="execu0te-label">Code Input</span>
+      <textarea id="execu0te-area" placeholder="Paste code here..."></textarea>
+      <div id="execu0te-actions">
+        <button id="execu0te-inject">INJECT</button>
+        <button id="execu0te-clear">CLEAR</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(t);
+
+  const header = document.getElementById("execu0te-header");
+  const body = document.getElementById("execu0te-body");
+  
+  // Toggle visibility
+  header.addEventListener("click", () => {
+    body.style.display = body.style.display === "none" ? "flex" : "none";
+  });
+
+  // Tab switching
+  const tabs = document.querySelectorAll(".execu0te-tab");
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      const type = tab.dataset.type;
+      const area = document.getElementById("execu0te-area");
+      
+      // Placeholder text based on type
+      if(type === "css") area.placeholder = "body { background: #000; }";
+      if(type === "js") area.placeholder = "console.log('hello');";
+      if(type === "html") area.placeholder = "<div>New Element</div>";
+    });
+  });
+
+  // Inject Logic
+  document.getElementById("execu0te-inject").addEventListener("click", () => {
+    const area = document.getElementById("execu0te-area");
+    const code = area.value;
+    const activeTab = document.querySelector(".execu0te-tab.active").dataset.type;
+
+    try {
+      if (activeTab === "css") {
+        const style = document.createElement("style");
+        style.textContent = code;
+        document.head.appendChild(style);
+        alert("CSS Injected!");
+      } else if (activeTab === "js") {
+        const script = document.createElement("script");
+        script.textContent = code;
+        document.body.appendChild(script);
+        alert("JS Injected!");
+      } else if (activeTab === "html") {
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = code;
+        document.body.appendChild(wrapper);
+        alert("HTML Injected!");
+      }
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
+  });
+
+  // Clear Logic
+  document.getElementById("execu0te-clear").addEventListener("click", () => {
+    document.getElementById("execu0te-area").value = "";
+  });
+})();
