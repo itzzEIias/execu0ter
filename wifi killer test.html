@@ -3,116 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Wi-Fi Kill Exploits</title>
+    <title>Real Browser Exploits</title>
     <style>
         body {
-            background: #1a1a1a;
+            background: #000;
             color: #fff;
             font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
         }
         .exploit {
-            border: 1px solid #444;
+            border: 1px solid #f00;
             padding: 15px;
-            margin-bottom: 10px;
-            background: #2a2a2a;
+            margin: 10px;
+            width: 80%;
+            background: #111;
         }
         .exploit h3 {
-            color: #0f0;
+            color: #f00;
             margin-top: 0;
         }
         .exploit button {
-            background: #0f0;
-            color: #000;
-            border: none;
-            padding: 10px 20px;
+            background: #333;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 10px;
             cursor: pointer;
-            font-weight: bold;
+            margin: 5px;
         }
         .exploit button:hover {
-            background: #00ff00;
+            background: #f00;
         }
-        .note {
-            color: #ff0;
-            font-size: 0.9em;
-            margin-top: 5px;
+        #status {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            color: #0f0;
         }
     </style>
 </head>
 <body>
 
-    <h1>Real Wi-Fi Kill Exploits (HTML/JS)</h1>
+    <h1>Real Browser Exploits (HTML/JS)</h1>
+    <div id="status">Status: Ready</div>
 
-    <!-- Exploit 1: Network Information API Manipulation -->
+    <!-- Exploit 1: CPU Kill -->
     <div class="exploit">
-        <h3>1. Network Information API (The "Slow" Kill)</h3>
-        <p>Forces the browser to think the connection is extremely slow, causing most sites to fail to load.</p>
-        <button onclick="killWifi1()">KILL WIFI</button>
-        <button onclick="restoreWifi1()">RESTORE</button>
-        <div class="note">Works on Chrome/Edge. Does not kill hardware, but kills *experience*.</div>
-        <script>
-            function killWifi1() {
-                if (navigator.connection) {
-                    navigator.connection.downlink = 0.01;
-                    navigator.connection.effectiveType = '2g';
-                }
-                alert("Wi-Fi 'Killed' (Simulated Slow Network)");
-            }
-            function restoreWifi1() {
-                if (navigator.connection) {
-                    navigator.connection.downlink = 10;
-                    navigator.connection.effectiveType = '4g';
-                }
-            }
-        </script>
+        <h3>1. CPU Kill (Infinite Loop)</h3>
+        <p>Spawns 1000 threads. Your CPU will hit 100%. Close the tab to stop.</p>
+        <button onclick="cpuKill()">ACTIVATE</button>
+        <button onclick="cpuRestore()">DEACTIVATE</button>
     </div>
 
-    <!-- Exploit 2: DNS Hijack to Localhost -->
+    <!-- Exploit 2: Memory Leak -->
     <div class="exploit">
-        <h3>2. DNS Hijack (The "Blackhole" Kill)</h3>
-        <p>Redirects all DNS queries to your local machine, effectively cutting off the internet.</p>
-        <button onclick="killWifi2()">KILL WIFI</button>
-        <button onclick="restoreWifi2()">RESTORE</button>
-        <div class="note">Requires a local server running on localhost:8080. If not running, you get a "Connection Refused" error.</div>
-        <script>
-            // This is a simplified version. Real DNS hijack requires a local server.
-            // This script just shows the concept.
-            function killWifi2() {
-                // In a real scenario, you'd point DNS to 127.0.0.1
-                // Here we just block fetch to external domains
-                window._dnsKilled = true;
-                alert("DNS Hijacked (Simulated)");
-            }
-            function restoreWifi2() {
-                window._dnsKilled = false;
-            }
-        </script>
+        <h3>2. Memory Leak Bomb</h3>
+        <p>Allocates 1GB of memory. Browser will slow down or crash.</p>
+        <button onclick="memKill()">ACTIVATE</button>
+        <button onclick="memRestore()">DEACTIVATE</button>
     </div>
 
-    <!-- Exploit 3: Chrome DevTools Protocol (The "Real" Kill) -->
+    <!-- Exploit 3: Fullscreen Trap -->
     <div class="exploit">
-        <h3>3. Chrome DevTools Protocol (DPI Injection)</h3>
-        <p>If you have Chrome DevTools open, you can use this to block all network requests.</p>
-        <button onclick="killWifi3()">KILL WIFI</button>
-        <div class="note">Only works if you have DevTools open and run this script in the console.</div>
-        <script>
-            function killWifi3() {
-                // This is a hack to block all network requests via DevTools
-                if (window.chrome && chrome.webRequest) {
-                    chrome.webRequest.onBeforeRequest.addListener(
-                        function(details) {
-                            return {cancel: true};
-                        },
-                        {urls: ["<all_urls>"]},
-                        ["blocking"]
-                    );
-                    alert("All Network Requests Blocked via DevTools");
-                } else {
-                    alert("Chrome DevTools Protocol not available. Use the Network Tab to throttle.");
+        <h3>3. Fullscreen Trap</h3>
+        <p>Forces fullscreen and hides UI. Press ESC to exit.</p>
+        <button onclick="fsTrap()">ACTIVATE</button>
+        <button onclick="fsRestore()">DEACTIVATE</button>
+    </div>
+
+    <!-- Exploit 4: Notification Spam -->
+    <div class="exploit">
+        <h3>4. Notification Spam</h3>
+        <p>Sends 1000 notifications instantly.</p>
+        <button onclick="notifySpam()">SPAM</button>
+    </div>
+
+    <!-- Exploit 5: Tab Cloak -->
+    <div class="exploit">
+        <h3>5. Tab Cloak (Windows Error)</h3>
+        <p>Makes the tab look like a Windows Error.</p>
+        <button onclick="cloak()">ACTIVATE</button>
+        <button onclick="cloakRestore()">RESTORE</button>
+    </div>
+
+    <!-- Exploit 6: Cursor Hijack -->
+    <div class="exploit">
+        <h3>6. Cursor Hijack</h3>
+        <p>Centers the cursor and disables scrolling.</p>
+        <button onclick="cursorHijack()">ACTIVATE</button>
+        <button onclick="cursorRestore()">RESTORE</button>
+    </div>
+
+    <script>
+        let cpuInterval;
+        let memArray = [];
+        let notifCount = 0;
+
+        // 1. CPU Kill
+        function cpuKill() {
+            const threads = 1000;
+            cpuInterval = setInterval(() => {
+                for(let i=0; i<threads; i++) {
+                    // Simple loop to burn CPU
+                    Math.random();
+                }
+            }, 10);
+            document.getElementById('status').innerText = "Status: CPU 100%";
+        }
+        function cpuRestore() {
+            clearInterval(cpuInterval);
+            document.getElementById('status').innerText = "Status: CPU Normal";
+        }
+
+        // 2. Memory Leak
+        function memKill() {
+            const interval = setInterval(() => {
+                memArray.push(new Array(1024 * 1024 * 10).fill('x')); // ~10MB per push
+                if (memArray.length > 100) { // Stop after 1GB
+                    clearInterval(interval);
+                    alert("Memory Full!");
+                }
+            }, 100);
+            document.getElementById('status').innerText = "Status: Memory Leaking";
+        }
+        function memRestore() {
+            memArray = [];
+            document.getElementById('status').innerText = "Status: Memory Clean";
+        }
+
+        // 3. Fullscreen Trap
+        function fsTrap() {
+            document.documentElement.requestFullscreen();
+            document.body.style.overflow = 'hidden';
+        }
+        function fsRestore() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+            document.body.style.overflow = 'auto';
+        }
+
+        // 4. Notification Spam
+        function notifySpam() {
+            if ("Notification" in window) {
+                Notification.requestPermission();
+                for (let i = 0; i < 1000; i++) {
+                    setTimeout(() => {
+                        new Notification("SPAM " + i, { body: "You are under attack!" });
+                    }, i * 10);
                 }
             }
-        </script>
-    </div>
+        }
 
+        // 5. Tab Cloak
+        function cloak() {
+            document.title = "Windows Error";
+            document.querySelector("head").innerHTML += '<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Windows_10_logo.svg/1024px-Windows_10_logo.svg.png">';
+        }
+        function cloakRestore() {
+            document.title = "Real Browser Exploits";
+            document.querySelector("head").innerHTML = '<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Real Browser Exploits</title><style>body{background:#000;color:#fff;font-family:monospace;padding:20px}.exploit{border:1px solid #f00;padding:15px;margin:10px;width:80%;background:#111}.exploit h3{color:#f00;margin-top:0}.exploit button{background:#333;color:#fff;border:1px solid #fff;padding:10px;cursor:pointer;margin:5px}.exploit button:hover{background:#f00}#status{position:fixed;bottom:10px;left:10px;color:#0f0}</style>';
+            // Re-add styles
+            document.querySelector("head").innerHTML += '<style>body{background:#000;color:#fff;font-family:monospace;padding:20px}.exploit{border:1px solid #f00;padding:15px;margin:10px;width:80%;background:#111}.exploit h3{color:#f00;margin-top:0}.exploit button{background:#333;color:#fff;border:1px solid #fff;padding:10px;cursor:pointer;margin:5px}.exploit button:hover{background:#f00}#status{position:fixed;bottom:10px;left:10px;color:#0f0}</style>';
+        }
+
+        // 6. Cursor Hijack
+        function cursorHijack() {
+            document.body.style.cursor = 'none';
+            document.body.style.overflow = 'hidden';
+            document.addEventListener('scroll', (e) => e.preventDefault());
+        }
+        function cursorRestore() {
+            document.body.style.cursor = 'auto';
+            document.body.style.overflow = 'auto';
+            document.removeEventListener('scroll', (e) => e.preventDefault());
+        }
+    </script>
 </body>
 </html>
