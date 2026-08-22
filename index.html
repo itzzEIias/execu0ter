@@ -35,7 +35,7 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            width: 300px; /* Fixed width for consistency */
+            width: 300px;
             justify-content: center;
         }
         .bookmark-btn:hover {
@@ -72,69 +72,110 @@
     If you can't see the bar, press <strong>Ctrl + B</strong> (Windows) or <strong>Cmd + B</strong> (Mac).</p>
 
     <!-- 
-      NOTE: I have cleaned up the CSS inside the href and closed the missing tags.
-      Replace 'YOUR_GITHUB_LINK_HERE' with your actual URL below.
+      FIX: Using a helper function to ensure the bookmarklet is properly encoded 
+      and won't break due to quotes or newlines.
     -->
-    <a id="bookmarklet-link" class="bookmark-btn" href="javascript:(function(){
-        if(window.execu0teLoaded) return alert('execu0te is already running!');
-        window.execu0teLoaded=true;
-        
-        // Create Style
-        const e=document.createElement('style');
-        e.textContent='#execu0te-panel{position:fixed;top:10px;right:10px;z-index:999999;width:300px;background:#1a1a1a;color:#fff;font-family:monospace;border:2px solid #00ff88;border-radius:8px;box-shadow:0 4px 15px rgba(0,0,0,0.5);overflow:hidden;transition:all 0.3s;}#execu0te-header{background:#00ff88;color:#000;padding:8px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;}#execu0te-header:hover{background:#00cc6a;}#execu0te-body{padding:10px;display:flex;flex-direction:column;gap:8px;}#execu0te-tabs{display:flex;gap:5px;} .execu0te-tab{flex:1;padding:5px;background:#333;border:none;color:#aaa;cursor:pointer;border-radius:3px;font-size:12px;} .execu0te-tab.active{background:#00ff88;color:#000;font-weight:bold;}#execu0te-area{width:100%;height:100px;background:#00;border:1px solid #555;color:#0f0;resize:vertical;font-family:monospace;font-size:12px;padding:5px;box-sizing:border-box;}#execu0te-actions{display:flex;gap:5px;}#execu0te-btn{flex:1;padding:8px;border:none;cursor:pointer;font-weight:bold;font-size:12px;border-radius:3px;}#execu0te-inject{background:#00ff88;color:#000;}#execu0te-inject:hover{background:#00cc6a;}#execu0te-clear{background:#ff4444;color:#fff;}#execu0te-clear:hover{background:#cc0000;} .execu0te-label{font-size:10px;color:#888;text-transform:uppercase;margin-top:5px;}#execu0te-toggle{cursor:pointer;user-select:none;}#execu0te-icon{width:16px;height:16px;border:2px solid #000;position:relative;}#execu0te-icon::before,#execu0te-icon::after{content:\'\';position:absolute;background:#000;}#execu0te-icon::before{width:100%;height:2px;top:7px;left:0;}#execu0te-icon::after{width:2px;height:100%;left:7px;top:0;}#execu0te-preview{position:absolute;bottom:0;left:0;width:100%;height:0;background:rgba(255,255,255,0.1);transition:height 0.3s;}#execu0te-preview.open{height:100px;}';
-        document.head.appendChild(e);
-
-        // Create Panel
-        const panel = document.createElement('div');
-        panel.id = 'execu0te-panel';
-        panel.innerHTML = `
-            <div id="execu0te-header">
-                <span>execu0te</span>
-                <div id="execu0te-toggle">
-                    <div id="execu0te-icon"></div>
-                </div>
-            </div>
-            <div id="execu0te-body">
-                <div class="execu0te-label">Console Output</div>
-                <textarea id="execu0te-area" readonly></textarea>
-                <div class="execu0te-label">Commands</div>
-                <div id="execu0te-actions">
-                    <button id="execu0te-inject">Inject</button>
-                    <button id="execu0te-clear">Clear</button>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(panel);
-
-        // Logic
-        document.getElementById('execu0te-clear').onclick = () => {
-            document.getElementById('execu0te-area').value = '';
-        };
-        document.getElementById('execu0te-inject').onclick = () => {
-            const area = document.getElementById('execu0te-area');
-            if(area.value) {
-                try {
-                    eval(area.value);
-                    area.value = 'Injected successfully.';
-                } catch (err) {
-                    area.value = 'Error: ' + err.message;
-                }
-            }
-        };
-        document.getElementById('execu0te-toggle').onclick = () => {
-            const body = document.querySelector('#execu0te-panel #execu0te-body');
-            body.style.display = body.style.display === 'none' ? 'flex' : 'none';
-        };
-    })();">
+    <a id="bookmarklet-link" class="bookmark-btn" href="javascript:void(0);" onclick="installExecu0te();">
         <span class="arrow">👉</span> Drag Me to Bar
     </a>
 
     <div class="note">Version 1.0</div>
 
     <!-- GITHUB LINK ADDED HERE -->
-    <a href="https://github.com/itzzEIias/execu0ter" class="github-link" target="_blank">
+    <!-- REPLACE '#' WITH YOUR ACTUAL GITHUB URL -->
+    <a href="https://github.com/YOUR_USERNAME/execu0te" class="github-link" target="_blank">
         View Source on GitHub
     </a>
 
+    <script>
+        // This script creates the actual bookmarklet URL dynamically to avoid syntax errors
+        function installExecu0te() {
+            const code = `
+            (function() {
+                if(window.execu0teLoaded) return alert('execu0te is already running!');
+                window.execu0teLoaded = true;
+
+                // CSS
+                const css = document.createElement('style');
+                css.textContent = 
+                    '#execu0te-panel{position:fixed;top:10px;right:10px;z-index:999999;width:300px;background:#1a1a1a;color:#fff;font-family:monospace;border:2px solid #00ff88;border-radius:8px;box-shadow:0 4px 15px rgba(0,0,0,0.5);overflow:hidden;transition:all 0.3s;}'+
+                    '#execu0te-header{background:#00ff88;color:#000;padding:8px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;}'+
+                    '#execu0te-header:hover{background:#00cc6a;}'+
+                    '#execu0te-body{padding:10px;display:flex;flex-direction:column;gap:8px;}'+
+                    '#execu0te-tabs{display:flex;gap:5px;}'+
+                    '.execu0te-tab{flex:1;padding:5px;background:#333;border:none;color:#aaa;cursor:pointer;border-radius:3px;font-size:12px;}'+
+                    '.execu0te-tab.active{background:#00ff88;color:#000;font-weight:bold;}'+
+                    '#execu0te-area{width:100%;height:100px;background:#000;border:1px solid #555;color:#0f0;resize:vertical;font-family:monospace;font-size:12px;padding:5px;box-sizing:border-box;}'+
+                    '#execu0te-actions{display:flex;gap:5px;}'+
+                    '#execu0te-btn{flex:1;padding:8px;border:none;cursor:pointer;font-weight:bold;font-size:12px;border-radius:3px;}'+
+                    '#execu0te-inject{background:#00ff88;color:#000;}'+
+                    '#execu0te-inject:hover{background:#00cc6a;}'+
+                    '#execu0te-clear{background:#ff4444;color:#fff;}'+
+                    '#execu0te-clear:hover{background:#cc0000;}'+
+                    '.execu0te-label{font-size:10px;color:#888;text-transform:uppercase;margin-top:5px;}'+
+                    '#execu0te-toggle{cursor:pointer;user-select:none;}'+
+                    '#execu0te-icon{width:16px;height:16px;border:2px solid #000;position:relative;}'+
+                    '#execu0te-icon::before,#execu0te-icon::after{content:\\'\\';position:absolute;background:#000;}'+
+                    '#execu0te-icon::before{width:100%;height:2px;top:7px;left:0;}'+
+                    '#execu0te-icon::after{width:2px;height:100%;left:7px;top:0;}'
+                ;
+                document.head.appendChild(css);
+
+                // HTML Structure
+                const panel = document.createElement('div');
+                panel.id = 'execu0te-panel';
+                panel.innerHTML = 
+                    '<div id="execu0te-header"><span>execu0te</span><div id="execu0te-toggle"><div id="execu0te-icon"></div></div></div>'+
+                    '<div id="execu0te-body">'+
+                    '  <div class="execu0te-label">Console Output</div>'+
+                    '  <textarea id="execu0te-area" readonly></textarea>'+
+                    '  <div class="execu0te-label">Commands</div>'+
+                    '  <div id="execu0te-actions">'+
+                    '    <button id="execu0te-inject">Inject</button>'+
+                    '    <button id="execu0te-clear">Clear</button>'+
+                    '  </div>'+
+                    '</div>';
+                
+                document.body.appendChild(panel);
+
+                // Logic
+                document.getElementById('execu0te-clear').onclick = function() {
+                    document.getElementById('execu0te-area').value = '';
+                };
+                
+                document.getElementById('execu0te-inject').onclick = function() {
+                    const area = document.getElementById('execu0te-area');
+                    if(area.value) {
+                        try {
+                            eval(area.value);
+                            area.value = 'Injected successfully.';
+                        } catch (err) {
+                            area.value = 'Error: ' + err.message;
+                        }
+                    }
+                };
+
+                document.getElementById('execu0te-toggle').onclick = function() {
+                    const body = document.querySelector('#execu0te-panel #execu0te-body');
+                    body.style.display = body.style.display === 'none' ? 'flex' : 'none';
+                };
+            })();
+            `;
+            
+            // Create the bookmarklet URL dynamically
+            const bookmarkletUrl = 'javascript:' + encodeURIComponent(code);
+            
+            // Update the href so you can drag it
+            document.getElementById('bookmarklet-link').href = bookmarkletUrl;
+            
+            // Optional: Disable the click now that it has a real href, or let user drag
+            // To make it draggable, we usually just need the href. 
+            // But since we are in a click handler, let's just update the link and let the user drag the button.
+            // However, for better UX, let's just update the href and remove the onclick to avoid conflict
+            document.getElementById('bookmarklet-link').removeAttribute('onclick');
+            
+            alert('Bookmarklet ready! Drag the button to your bookmarks bar.');
+        }
+    </script>
 </body>
 </html>
